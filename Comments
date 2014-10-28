@@ -1,0 +1,181 @@
+package com.example.newcrm;
+
+import java.util.Calendar;
+
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+public class Comments extends Activity {
+
+	EditText ed_comments, ed_location, ed_add_values;
+	ImageView img_follow;
+	Boolean follow_flag = false;
+	
+	TextView txt_plan_date,txt_plan_start_time;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.comments);
+
+		ed_comments = (EditText) findViewById(R.id.ed_commentss);
+		ed_location = (EditText) findViewById(R.id.ed_location);
+		ed_add_values = (EditText) findViewById(R.id.ed_add_values);
+
+		img_follow = (ImageView) findViewById(R.id.img_follow);
+		
+		txt_plan_date  = (TextView) findViewById(R.id.txt_plan_date);
+		txt_plan_start_time  = (TextView) findViewById(R.id.txt_plan_start_time);
+		
+
+		ed_comments.setHintTextColor(getResources().getColor(R.color.white));
+		ed_location.setHintTextColor(getResources().getColor(R.color.white));
+		ed_add_values.setHintTextColor(getResources().getColor(R.color.white));
+
+		img_follow.setImageResource(R.drawable.ic_checkcircle_unselect);
+		follow_flag = false;
+	}
+
+	public void events(View v) {
+		Toast.makeText(getBaseContext(), "You clicked Events",
+				Toast.LENGTH_SHORT).show();
+	}
+
+	public void attaching(View v) {
+		Toast.makeText(getBaseContext(), "You clicked Attaching a file",
+				Toast.LENGTH_SHORT).show();
+	}
+
+	public void share(View v) {
+		Toast.makeText(getBaseContext(), "You clicked Share wit all",
+				Toast.LENGTH_SHORT).show();
+	}
+
+	public void post(View v) {
+		Toast.makeText(getBaseContext(), "You clicked Post comment",
+				Toast.LENGTH_SHORT).show();
+	}
+
+	public void date_picker(View v) {
+		
+		// Process to get Current Date
+		final Calendar c = Calendar.getInstance();
+		final int mYear = c.get(Calendar.YEAR);
+		final int mMonth = c.get(Calendar.MONTH);
+		final int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+		// Launch Date Picker Dialog
+		DatePickerDialog dpd = new DatePickerDialog(this,
+				new DatePickerDialog.OnDateSetListener() {
+
+					@Override
+					public void onDateSet(DatePicker view, int year,
+							int monthOfYear, int dayOfMonth) {
+						// Display Selected date in textbox
+						txt_plan_date.setText(dayOfMonth + "-"
+								+ (monthOfYear + 1) + "-" + year);
+
+					}
+				}, mYear, mMonth, mDay);
+		dpd.show();
+		
+		Toast.makeText(getBaseContext(), "You clicked for changing the date",
+				Toast.LENGTH_SHORT).show();
+		
+	}
+	
+	
+	public void time_picker(View v) {
+		
+		// Process to get Current Time
+					final Calendar c = Calendar.getInstance();
+					final int mHour = c.get(Calendar.HOUR_OF_DAY);
+					final int mMinute = c.get(Calendar.MINUTE);
+
+					// Launch Time Picker Dialog
+					TimePickerDialog tpd = new TimePickerDialog(this,
+							new TimePickerDialog.OnTimeSetListener() {
+
+								@Override
+								public void onTimeSet(TimePicker view, int hourOfDay,
+										int minute) {
+									// Display Selected time in textbox
+								//	txt_plan_start_time.setText(hourOfDay + ":" + minute);
+									
+									updateTime(hourOfDay, minute);
+								}
+							}, mHour, mMinute, false);
+					tpd.show();
+					
+					
+		Toast.makeText(getBaseContext(), "You clicked for changing the time",
+				Toast.LENGTH_SHORT).show();
+	}
+	
+	
+	private void updateTime(int hours, int mins) {
+		
+		String timeSet = "";
+		if (hours > 12) {
+			hours -= 12;
+			timeSet = "PM";
+		} else if (hours == 0) {
+			hours += 12;
+			timeSet = "AM";
+		} else if (hours == 12)
+			timeSet = "PM";
+		else
+			timeSet = "AM";
+
+		
+		String minutes = "";
+		if (mins < 10)
+			minutes = "0" + mins;
+		else
+			minutes = String.valueOf(mins);
+
+		// Append in a StringBuilder
+		 String aTime = new StringBuilder().append(hours).append(':')
+				.append(minutes).append(" ").append(timeSet).toString();
+
+		 txt_plan_start_time.setText(aTime);
+	}
+	//       
+	public void follow(View v) {
+
+		if (follow_flag == false) {
+			img_follow.setImageResource(R.drawable.ic_checkcircle_select);
+			follow_flag = true;
+		} else {
+			img_follow.setImageResource(R.drawable.ic_checkcircle_unselect);
+			follow_flag = false;
+		}
+
+	}
+
+	public void attachment(View v) {
+		Toast.makeText(getBaseContext(), "You clicked Attachment",
+				Toast.LENGTH_SHORT).show();
+	}
+
+	public void add_user(View v) {
+		Toast.makeText(getBaseContext(), "You clicked Add user",
+				Toast.LENGTH_SHORT).show();
+	}
+
+	public void calendar(View v) {
+		Toast.makeText(getBaseContext(), "You clicked Calendar",
+				Toast.LENGTH_SHORT).show();
+	}
+
+}
